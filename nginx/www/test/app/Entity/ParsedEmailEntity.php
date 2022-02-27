@@ -4,7 +4,8 @@ namespace App\Entity;
 
 class ParsedEmailEntity
 {
-    private $dateFrom;
-    private $dateTo;
-
+    /** @var \DOMComment */
+    private \DOMComment $emailDom;
+    /** @var ShiftEntity[] */
+    private array $shifts;
 }
