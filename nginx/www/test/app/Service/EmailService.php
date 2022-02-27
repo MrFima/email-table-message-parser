@@ -1,8 +1,14 @@
 <?php
 
-namespace Service;
+namespace App\Service;
 
+use DOMDocument;
+use DOMNode;
 use PhpMimeMailParser\Parser;
+
+use App\Entity\ParsedEmailEntity;
+use App\Entity\RawEmailEntity;
+
 
 class EmailService
 {

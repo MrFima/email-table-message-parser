@@ -2,22 +2,23 @@
 require_once __DIR__.'/vendor/autoload.php';
 
 use PhpMimeMailParser\Parser;
-use Service\EmailService;
+
+use App\Entity\RawEmailEntity;
+use App\Service\EmailService;
 
 const TARGET_CELL_CONTENT = 'yes/no';
 
+$emailService = new EmailService();
+$path = 'mail.txt';
+$emailContent = file_get_contents($path);
+
+$rawEmail = new RawEmailEntity($emailContent, new DateTimeZone('Europe/Moscow'));
 try {
-    $emailService = new EmailService();
+    $parsedEmail = $emailService->parse($rawEmail);
 } catch (Throwable $exception) {
     var_dump($exception);
 }
 
-
-$path = 'mail.txt';
-//$emailContent = file_get_contents($path);
-
-//$rawEmail = new RawEmailEntity($emailContent, new DateTimeZone('Europe/Moscow'));
-//$parsedEmail = $emailService->parse($rawEmail);
 exit;
 try {
     $parser = new Parser();
@@ -46,7 +47,7 @@ try {
         /** @var DOMNode $tableCells */
         foreach ($tableRow->childNodes as $columnNumber => $tableCells) {
             foreach ($tableCells->childNodes as $cellNumber => $tableCell) {
-                if (strtolower(trim($tableCell->nodeValue)) === TARGET_CELL_CONTENT) {
+                if (strtolower(trim($tableCell->nodeValue)) ===  TARGET_CELL_CONTENT) {
                     $targetCellNumber = $cellNumber;
                     $targetColumnNumber = $columnNumber;
 

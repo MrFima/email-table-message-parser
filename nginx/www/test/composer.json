@@ -1,5 +1,10 @@
 {
     "require": {
         "php-mime-mail-parser/php-mime-mail-parser": "7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
     }
 }

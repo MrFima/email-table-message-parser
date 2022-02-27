@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Entity;
+
+use DateTimeZone;
+
 class RawEmailEntity
 {
     /** @var string */
