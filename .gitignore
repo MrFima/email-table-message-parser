@@ -1,2 +1,8 @@
+# ignore phpStorm project files
 /.idea
+# ignore composer vendor files
 /nginx/www/test/vendor/
+/nginx/www/test/composer.lock
+# ignore server log files
+/nginx/logs/access.log
+/nginx/logs/error.log
