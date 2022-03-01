@@ -1,5 +1,6 @@
 {
     "require": {
+        "php": "7.4.0",
         "php-mime-mail-parser/php-mime-mail-parser": "7.*",
         "nesbot/carbon": "^2.57.0"
     },

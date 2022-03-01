@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\ShiftEntity;
+use Carbon\Carbon;
 use DOMDocument;
 use DOMNode;
 use PhpMimeMailParser\Parser;
@@ -14,6 +16,12 @@ class EmailService
 {
     private const HTML_HEADER = '<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head>';
     private const TARGET_CELL_CONTENT = 'yes/no';
+
+    private const DATE_COLUMN = 2;
+    private const START_TIME_SHIFT_COLUMN = 3;
+    private const END_TIME_SHIFT_COLUMN = 4;
+    private const SHIFT_COLUMN = 5;
+    private const SERVERS_COLUMN = 6;
 
     /**
      * @param RawEmailEntity $rawEmail
@@ -31,33 +39,43 @@ class EmailService
         }
 
         $emailDom = new DOMDocument();
-        $emailDom->loadHTML($html);
+        @$emailDom->loadHTML($html);
+        echo $emailDom->saveHTML();
+        $parsedEmail = new ParsedEmailEntity(
+            $emailDom
+        );
 
-        $tableBody = $emailDom->getElementsByTagName('tbody');
+        $tableBody = $parsedEmail->getEmailDom()->getElementsByTagName('tbody');
         //TODO: $targetColumnNumber название содержит неточность
+        $isShiftsTablesStart = false;
         $targetColumnNumber = null;
         $targetCellNumber = null;
         $targetContent = 'У';
 
-        /** @var DOMNode $tableRow */
-        foreach ($tableBody as $tableRow) {
-            /** @var DOMNode $tableCells */
-            foreach ($tableRow->childNodes as $columnNumber => $tableCells) {
-                foreach ($tableCells->childNodes as $cellNumber => $tableCell) {
-                    if (strtolower(trim($tableCell->nodeValue)) === TARGET_CELL_CONTENT) {
-                        $targetCellNumber = $cellNumber;
-                        $targetColumnNumber = $columnNumber;
+        /**
+         * @var int $rowNumber
+         * @var DOMNode $rowCells
+         */
+        foreach ($tableBody[0]->childNodes as $rowNumber => $rowCells) {
 
-                    }
-                }
-                if ($targetColumnNumber) {
-                    break;
-                }
+            if ($isShiftsTablesStart) {
+                $shift = new ShiftEntity();
+                $dateStart = $rowCells->childNodes[self::DATE_COLUMN]->nodeValue
+                    . $rowCells->childNodes[self::START_TIME_SHIFT_COLUMN]->nodeValue;
+                $dateEnd = $rowCells->childNodes[self::DATE_COLUMN]->nodeValue
+                    . $rowCells->childNodes[self::END_TIME_SHIFT_COLUMN]->nodeValue;
+                $shift->setDateFrom(Carbon::parse($dateStart));
+                $shift->setDateTo(Carbon::parse($dateEnd));
+                $parsedEmail->addShift($shift);
             }
 
-            $tableRow->childNodes[$targetColumnNumber + 1]->childNodes[$targetCellNumber]->childNodes[1]->nodeValue = $targetContent;
+            foreach ($rowCells->childNodes as $columnNumber => $columnCell) {
+                if (strtolower(trim($columnCell->nodeValue)) === self::TARGET_CELL_CONTENT) {
+                    $isShiftsTablesStart = true;
+                }
+            }
         }
-
+        return $parsedEmail;
     }
 
 }

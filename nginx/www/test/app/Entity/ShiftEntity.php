@@ -15,4 +15,71 @@ class ShiftEntity
     private Carbon $dateFrom;
     /** @var Carbon Время окончания смены */
     private Carbon $dateTo;
+    /** @var bool */
+    private bool $isConfirmed;
+
+    /**
+     * @return int
+     */
+    public function getShift(): int
+    {
+        return $this->shift;
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getDateFrom(): Carbon
+    {
+        return $this->dateFrom;
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getDateTo(): Carbon
+    {
+        return $this->dateTo;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConfirmed(): bool
+    {
+        return $this->isConfirmed;
+    }
+
+
+    /**
+     * @param int $shift
+     */
+    public function setShift(int $shift): void
+    {
+        $this->shift = $shift;
+    }
+
+    /**
+     * @param Carbon $dateFrom
+     */
+    public function setDateFrom(Carbon $dateFrom): void
+    {
+        $this->dateFrom = $dateFrom;
+    }
+
+    /**
+     * @param Carbon $dateTo
+     */
+    public function setDateTo(Carbon $dateTo): void
+    {
+        $this->dateTo = $dateTo;
+    }
+
+    public function confirm(): void
+    {
+        $this->isConfirmed = true;
+    }
+
+
+
 }
