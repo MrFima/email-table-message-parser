@@ -23,6 +23,8 @@ class EmailService
     // Символ, который устанавливаем в качестве согласия со сменой
     private const CONFIRM_SYMBOL = 'У';
 
+    // Номер колонки в таблице смен с "галкой" согласия со сменой
+    private const CONFIRM_COLUMN = 0;
     // Номер колонки в таблице смен с датой смены
     private const DATE_COLUMN = 2;
     // Номер колонки в таблице смен с временем началы смены
@@ -106,6 +108,23 @@ class EmailService
             }
         }
         return $parsedEmail;
+    }
+
+    /**
+     * @param ShiftEntity $shiftEntity
+     * @param ParsedEmailEntity $parsedEmail
+     * @return void
+     */
+    public function confirmShift(
+        ShiftEntity $shiftEntity,
+        ParsedEmailEntity $parsedEmail
+    ): void {
+        $shiftEntity->confirm();
+        $rowNumber = $shiftEntity->getRowNumberInEmailTable();
+        $emailDom = $parsedEmail->getEmailDom();
+        /** DOMNodeList $tbody*/
+        $tbody = $emailDom->getElementsByTagName('tbody');
+        $tbody[0]->childNodes[$rowNumber]->childNodes[self::CONFIRM_COLUMN]->nodeValue = self::CONFIRM_SYMBOL;
     }
 
     /**

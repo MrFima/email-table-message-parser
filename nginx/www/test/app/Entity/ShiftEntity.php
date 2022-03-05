@@ -94,6 +94,13 @@ class ShiftEntity
     }
 
     /**
+     * @return int
+     */
+    public function getRowNumberInEmailTable(): int {
+        return $this->rowNumberInEmailTable;
+    }
+
+    /**
      * Номер строки, которая содержит текущую смену
      * @param int $rowNumber
      * @return void

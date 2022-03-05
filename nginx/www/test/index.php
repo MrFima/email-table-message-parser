@@ -14,6 +14,10 @@ $rawEmail = $emailService->getRawEmail(EMAIL_PATH);
 try {
     $parsedEmail = $emailService->parse($rawEmail);
 
+    foreach ($parsedEmail->getShifts() as $shift) {
+        $emailService->confirmShift($shift, $parsedEmail);
+    }
+
     $emailRenderService->render($parsedEmail);
 } catch (Throwable $exception) {
     var_dump($exception);
