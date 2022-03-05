@@ -15,7 +15,10 @@ class RawEmailEntity
      * @param DateTimeZone $timeZone
      * @param string $rawEmailMessage
      */
-    public function __construct(string $rawEmailMessage, DateTimeZone $timeZone)
+    public function __construct(
+        string $rawEmailMessage,
+        DateTimeZone $timeZone
+    )
     {
         $this->rawEmailMessage = $rawEmailMessage;
         $this->timeZone = $timeZone;

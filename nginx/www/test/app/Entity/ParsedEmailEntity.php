@@ -15,7 +15,7 @@ class ParsedEmailEntity
      */
     public function __construct(
         \DOMDocument $emailDom,
-        array $shifts = []
+        array        $shifts = []
     )
     {
         $this->emailDom = $emailDom;
@@ -33,7 +33,8 @@ class ParsedEmailEntity
     /**
      * @return ShiftEntity[]
      */
-    public function getShifts(): array {
+    public function getShifts(): array
+    {
         return $this->shifts;
     }
 

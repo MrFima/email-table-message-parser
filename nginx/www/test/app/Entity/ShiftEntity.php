@@ -17,6 +17,8 @@ class ShiftEntity
     private Carbon $dateTo;
     /** @var bool */
     private bool $isConfirmed;
+    /** @var int */
+    private int $rowNumberInEmailTable;
 
     /**
      * @return int
@@ -75,11 +77,28 @@ class ShiftEntity
         $this->dateTo = $dateTo;
     }
 
+    /**
+     * @return void
+     */
     public function confirm(): void
     {
         $this->isConfirmed = true;
     }
 
+    /**
+     * @return void
+     */
+    public function decline(): void
+    {
+        $this->isConfirmed = false;
+    }
 
+    /**
+     * @param int $rowNumber
+     * @return void
+     */
+    public function setRowNumberInEmailTable(int $rowNumber): void {
+        $this->rowNumberInEmailTable = $rowNumber;
+    }
 
 }
