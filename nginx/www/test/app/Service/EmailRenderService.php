@@ -4,6 +4,9 @@ namespace App\Service;
 
 use App\Entity\ParsedEmailEntity;
 
+/**
+ * Сервис рендера пимьма
+ */
 class EmailRenderService
 {
     /**

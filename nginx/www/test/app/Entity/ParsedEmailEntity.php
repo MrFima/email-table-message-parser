@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+/**
+ * Сущность распаршенного письма, содержащее Dom письма и смены
+ */
 class ParsedEmailEntity
 {
     /** @var \DOMDocument */

@@ -94,6 +94,7 @@ class ShiftEntity
     }
 
     /**
+     * Номер строки, которая содержит текущую смену
      * @param int $rowNumber
      * @return void
      */

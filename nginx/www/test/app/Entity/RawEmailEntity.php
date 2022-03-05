@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use DateTimeZone;
 
+/**
+ * Сущность письма, которая хранит загруженное письмо как есть с таймзоной, которой соответствует дата и время смены
+ */
 class RawEmailEntity
 {
     /** @var string */
